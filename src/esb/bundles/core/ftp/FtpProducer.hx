@@ -96,7 +96,7 @@ class FtpProducer implements IProducer {
             var cacheInfo:CacheInfo = null;
 
             client.get(fullPath).then(fileBytes -> {
-                var cacheFolder = EsbConfig.get().path("ftp-cache");
+                var cacheFolder = EsbConfig.get().path("ftp-bundle/cache");
                 cacheFolder = Path.normalize(cacheFolder + "/" + uri.domain);
                 if (!FileSystem.exists(cacheFolder)) {
                     FileSystem.createDirectory(cacheFolder);
