@@ -1,0 +1,18 @@
+{
+    "bundles": {
+        "bundle-ftp": {
+            "name": "bundle-ftp",
+            "bundle-file": "bundle-ftp",
+            "prefixes": {
+                "ftp": {
+                    "producer": {
+                        "class": "esb.bundles.core.ftp.FtpProducer"
+                    }
+                }
+            },
+            "properties": {
+                "default-poll-interval": "1000"
+            }
+        }
+    }
+}
