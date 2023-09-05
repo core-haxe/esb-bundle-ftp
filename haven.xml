@@ -1,0 +1,38 @@
+<project>
+    <group>esb::bundle</group>
+    <name>ftp</name>
+    <version>0.0.0</version>
+
+    <commands>
+        <build>
+            <haxe target="js" output="${buildDir}/bundle-ftp.js" main="esb.core.BundleLoader" cleanUp="false" outputFilename="nodejs.hxml">
+                <dependencies>
+                    <dependency>promises</dependency>
+                    <dependency>hxnodejs</dependency>
+                    <dependency>ftp</dependency>
+                </dependencies>
+                <class-paths>
+                    <class-path>src</class-path>
+                    <class-path>${rootDir}/esb/common/esb-common</class-path>
+                    <class-path>${rootDir}/esb/core/esb-core</class-path>
+                    <class-path>${rootDir}/esb/core/esb-logging</class-path>
+                    <class-path>${rootDir}/esb/core/esb-config</class-path>
+                </class-paths>
+                <compiler-args>
+                    <compiler-arg>--macro include('esb.bundles.core.ftp')</compiler-arg>
+                    <compiler-arg>--dce full</compiler-arg>
+                    <compiler-arg>-cmd haxelib run haven install</compiler-arg>
+                </compiler-args>
+                <compiler-defines>
+                    <compiler-define>no-deprecation-warnings</compiler-define>
+                </compiler-defines>
+            </haxe>
+        </build>
+        <install>
+            <copy-file source="${baseDir}/bundle-ftp.json" destination="${configDir}/bundle-ftp.json" />
+        </install>
+    </commands>
+
+    <properties>
+    </properties>
+</project>
