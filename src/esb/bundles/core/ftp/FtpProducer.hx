@@ -1,5 +1,6 @@
 package esb.bundles.core.ftp;
 
+import js.node.Require;
 import esb.core.config.sections.EsbConfig;
 import haxe.Json;
 import sys.io.File;
@@ -27,6 +28,12 @@ class FtpProducer implements IProducer {
     public function start(uri:Uri) {
         log.info('creating producer for ${uri.toString()}');
         log.info('looking for files in "${uri.fullPath}"');
+
+        var maxEventListeners = bundle.config.properties.int("max-event-listeners");
+        if (maxEventListeners != null) {
+            log.info('setting max event listeners to ${maxEventListeners}');
+            Require.require("events").defaultMaxListeners = maxEventListeners;
+        }
 
         listRemoteFiles(uri);
     }
@@ -72,6 +79,7 @@ class FtpProducer implements IProducer {
             }
             start = Sys.time();
             var promises = [];
+            log.info('found ${eligibleItems.length} file(s) in path ${path}');
             for (eligibleItem in eligibleItems) {
                 var itemFullPath = Path.normalize(path + "/" + eligibleItem.name);
                 promises.push(processItem.bind(uri, client, itemFullPath));
@@ -79,12 +87,12 @@ class FtpProducer implements IProducer {
             return PromiseUtils.runAll(promises);
         }).then(_ -> {
             var end = Sys.time();
-            trace("-------------------------------------------------> ALL DONE IN: ", Math.round((end - start) * 1000) + " ms");
+            log.performance('files processed in ${Math.round((end - start) * 1000)}ms');
             client.disconnect();
             haxe.Timer.delay(listRemoteFiles.bind(uri), pollInterval);
             return null;
         }, (error:FtpError) -> {
-            trace("error", error);
+            log.error(error.message);
             haxe.Timer.delay(listRemoteFiles.bind(uri), pollInterval);
         });
     }
@@ -123,7 +131,8 @@ class FtpProducer implements IProducer {
                 }
                 cacheInfo = {
                     originalFilename: originalFilename,
-                    fullRemotePath: fullPath
+                    fullRemotePath: fullPath,
+                    timestamp: Date.now().toString()
                 }
 
                 return to(uri, message);
@@ -141,5 +150,6 @@ class FtpProducer implements IProducer {
 
 typedef CacheInfo = {
     originalFilename:String,
-    fullRemotePath:String
+    fullRemotePath:String,
+    timestamp:String
 }

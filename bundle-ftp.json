@@ -11,7 +11,8 @@
                 }
             },
             "properties": {
-                "default-poll-interval": "1000"
+                "default-poll-interval": "1000",
+                "max-event-listeners": "150"
             }
         }
     }
