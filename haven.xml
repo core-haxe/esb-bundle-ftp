@@ -4,6 +4,9 @@
     <version>0.0.0</version>
 
     <commands>
+        <copy-config>
+            <copy-file source="${baseDir}/bundle-ftp.json" destination="${configDir}/bundle-ftp.json" />
+        </copy-config>
         <build>
             <haxe target="js" output="${buildDir}/bundle-ftp.js" main="esb.core.BundleLoader" cleanUp="false" outputFilename="nodejs.hxml">
                 <dependencies>
@@ -28,11 +31,5 @@
                 </compiler-defines>
             </haxe>
         </build>
-        <install>
-            <copy-file source="${baseDir}/bundle-ftp.json" destination="${configDir}/bundle-ftp.json" />
-        </install>
     </commands>
-
-    <properties>
-    </properties>
 </project>
