@@ -92,7 +92,7 @@ class FtpProducer implements IProducer {
                 var itemFullPath = Path.normalize(path + "/" + eligibleItem.name);
                 promises.push(processItem.bind(uri, client, itemFullPath));
             }
-            return PromiseUtils.runAll(promises);
+            return PromiseUtils.runSequentially(promises);
         }).then(_ -> {
             var end = Sys.time();
             log.performance('files processed in ${Math.round((end - start) * 1000)}ms');
