@@ -41,9 +41,17 @@ class FtpProducer implements IProducer {
     private function listRemoteFiles(uri:Uri) {
         var start:Float = 0;
         var client = new FtpClient();
+        var port = 22;
+        if (uri.port != null) {
+            port = uri.port;
+        }
+        var port = 22;
+        if (uri.port != null) {
+            port = uri.port;
+        }
         var connectionDetails:FtpConnectionDetails = {
             host: uri.domain,
-            port: 22,
+            port: port,
             username: uri.param("username"),
             password: uri.param("password")
         }
