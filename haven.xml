@@ -24,7 +24,7 @@
                 <compiler-args>
                     <compiler-arg>--macro include('esb.bundles.core.ftp')</compiler-arg>
                     <compiler-arg>--dce full</compiler-arg>
-                    <compiler-arg>-cmd haxelib run haven install</compiler-arg>
+                    <compiler-arg>-cmd haxelib run haven copy-config</compiler-arg>
                 </compiler-args>
                 <compiler-defines>
                     <compiler-define>no-deprecation-warnings</compiler-define>
